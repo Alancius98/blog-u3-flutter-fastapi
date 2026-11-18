@@ -9,10 +9,10 @@
       "descripcion": "El contenido se envía a FastAPI y se guarda en MySQL. La publicación debe seguir disponible después de cerrar y volver a iniciar sesión.",
       "img": null,
       "tags": "Flutter",
-      "id_blog": 9,
-      "usr_id": 12,
+      "id_blog": 11,
+      "usr_id": 14,
       "autor": "Usuario actualizado",
-      "fecha": "2026-11-18T17:02:19",
+      "fecha": "2026-11-18T17:06:48",
       "promedio": 5.0,
       "votos": 1,
       "mi_valoracion": 5,
@@ -21,7 +21,7 @@
   ],
   "consulta_mysql": [
     {
-      "id_blog": 9,
+      "id_blog": 11,
       "titulo": "Mi publicación desde Flutter actualizada",
       "nom_usr": "Usuario actualizado",
       "comentario": "Comentario persistido desde la aplicación."
@@ -29,8 +29,8 @@
   ],
   "valoraciones_mysql": [
     {
-      "blog_id": 9,
-      "usr_id": 12,
+      "blog_id": 11,
+      "usr_id": 14,
       "puntos": 5
     }
   ],

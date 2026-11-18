@@ -8,6 +8,10 @@ Docente: Adriana Y. Contreras Álvarez
 
 Este proyecto amplía el código de clase y conserva sus dos carpetas principales. Flutter presenta la aplicación; FastAPI valida las solicitudes y consulta MySQL.
 
+Repositorio público: https://github.com/Alancius98/blog-u3-flutter-fastapi
+
+Reporte: [PDF](reportes/Reporte_U3.pdf) y [Word](reportes/Reporte_U3.docx). Diagramas: [modelo BD](reportes/Modelo_BD.png) y [clases](reportes/Diagrama_clases.png). La grabación personal se entrega por separado.
+
 ```text
 flutter application/
   flutter_application_1/       Aplicación Flutter
