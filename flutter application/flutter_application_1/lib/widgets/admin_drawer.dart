@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_client.dart';
+import 'blog_theme.dart';
 
 class AdminDrawer extends StatelessWidget {
   final Map<String, dynamic> usuario;
@@ -33,12 +34,12 @@ class AdminDrawer extends StatelessWidget {
         child: Column(
           children: [
             UserAccountsDrawerHeader(
-              decoration: const BoxDecoration(color: Color(0xFF08245C)),
+              decoration: const BoxDecoration(color: Color(0xFF9C421D)),
               currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Icon(
                   Icons.admin_panel_settings,
-                  color: Color(0xFF08245C),
+                  color: blogOrange,
                   size: 34,
                 ),
               ),
@@ -109,10 +110,7 @@ class AdminDrawer extends StatelessWidget {
   ) {
     final seleccionado = ruta == rutaActual;
     return ListTile(
-      leading: Icon(
-        icono,
-        color: seleccionado ? const Color(0xFF08245C) : null,
-      ),
+      leading: Icon(icono, color: seleccionado ? blogOrange : null),
       title: Text(titulo),
       selected: seleccionado,
       onTap: () => _navegar(context, ruta),

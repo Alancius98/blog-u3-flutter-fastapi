@@ -8,6 +8,7 @@ import '../widgets/auth_card.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
 import '../services/api_client.dart';
+import '../widgets/blog_theme.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -116,7 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         );
 
-        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, '/login');
       }
     } catch (e) {
       if (!mounted) return;
@@ -168,11 +169,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisSize: MainAxisSize.min,
 
                   children: [
-                    const Icon(
-                      Icons.person_add,
-                      size: 65,
-                      color: Color(0xFF2196F3),
-                    ),
+                    const BlogBrand(),
 
                     const SizedBox(height: 15),
 
@@ -182,8 +179,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: const TextStyle(
                         fontSize: 27,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF08245C),
+                        color: blogInk,
                       ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Un lugar para tus ideas y conversaciones.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: blogMuted, height: 1.5),
                     ),
 
                     const SizedBox(height: 25),
@@ -335,7 +338,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (!_esAdmin)
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacementNamed(context, '/login');
                         },
 
                         child: const Text('Ya tengo una cuenta'),

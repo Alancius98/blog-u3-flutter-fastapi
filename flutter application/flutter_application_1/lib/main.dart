@@ -7,6 +7,8 @@ import 'screens/add_blog_page.dart';
 import 'screens/profile_page.dart';
 import 'pages/users_page.dart';
 import 'services/api_client.dart';
+import 'screens/welcome_page.dart';
+import 'widgets/blog_theme.dart';
 
 void main() {
   runApp(const SessionGuard(child: LoginApp()));
@@ -19,15 +21,27 @@ class SessionGuard extends StatefulWidget {
   State<SessionGuard> createState() => _SessionGuardState();
 }
 
-class _SessionGuardState extends State<SessionGuard> with WidgetsBindingObserver {
+class _SessionGuardState extends State<SessionGuard>
+    with WidgetsBindingObserver {
   @override
-  void initState() { super.initState(); WidgetsBinding.instance.addObserver(this); }
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
   @override
-  void dispose() { WidgetsBinding.instance.removeObserver(this); super.dispose(); }
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) ApiClient.verificarSesion().catchError((Object _) {});
+    if (state == AppLifecycleState.resumed) {
+      ApiClient.verificarSesion().catchError((Object _) {});
+    }
   }
+
   @override
   Widget build(BuildContext context) => widget.child;
 }
@@ -40,11 +54,13 @@ class LoginApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      title: 'Mi aplicacion',
+      title: 'Mi Blog',
+      theme: buildBlogTheme(),
       navigatorKey: ApiClient.navigatorKey,
       onGenerateRoute: (settings) {
         final ruta = settings.name ?? '/login';
-        final protegida = ruta != '/login' && ruta != '/register';
+        final protegida =
+            ruta != '/' && ruta != '/login' && ruta != '/register';
         if (protegida && !ApiClient.autenticado) {
           return MaterialPageRoute(builder: (_) => const LoginPage());
         }
@@ -52,6 +68,7 @@ class LoginApp extends StatelessWidget {
           return MaterialPageRoute(builder: (_) => const BlogPage());
         }
         final pagina = switch (ruta) {
+          '/' => const WelcomePage(),
           '/register' => const RegisterPage(),
           '/users' => const UsersPage(),
           '/blog' => const BlogPage(),
@@ -62,7 +79,7 @@ class LoginApp extends StatelessWidget {
         return MaterialPageRoute(settings: settings, builder: (_) => pagina);
       },
 
-      initialRoute: '/login',
+      initialRoute: '/',
     );
   }
 }

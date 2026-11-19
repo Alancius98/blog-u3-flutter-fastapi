@@ -36,16 +36,11 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
 
-        prefixIcon: Icon(
-          prefixIcon,
-        ),
+        prefixIcon: Icon(prefixIcon),
 
         suffixIcon: suffixIcon,
 
-        border: OutlineInputBorder(
-          borderRadius:
-              BorderRadius.circular(6),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

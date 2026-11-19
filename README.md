@@ -23,7 +23,9 @@ scripts/                       Verificación y documentación
 
 ## Funciones
 
-Registro, inicio y cierre de sesión, consulta de publicaciones propias y ajenas, creación/edición/borrado de publicaciones, comentarios por publicación y valoraciones de 1 a 5 estrellas. Se conserva la navegación y los widgets del proyecto original; los filtros por texto y etiquetas ahora consultan la API.
+Registro, inicio y cierre de sesión, consulta de publicaciones propias y ajenas, creación/edición/borrado de publicaciones, comentarios por publicación y valoraciones de 1 a 5 estrellas. Se conserva la organización de pantallas, servicios y modelos del proyecto original; los filtros por texto y etiquetas consultan la API.
+
+La portada pública ofrece acceso al login y al registro. El diseño utiliza una paleta naranja y crema, fotografía de bienvenida y tarjetas de publicaciones que se organizan en tres, dos o una columna según el ancho disponible. La composición toma como referencia visual la página de presentación de Blogger, sin usar su logotipo ni depender de sus servicios. La API, las cuentas y los permisos no cambian con el diseño. La fotografía de portada está incluida en `assets/images/blog_cover.jpg`; su fuente se documenta en `assets/images/FUENTES.md` dentro de la carpeta Flutter.
 
 El tipo 1 corresponde a Administrador y el tipo 2 a General. El registro público solo admite General. El administrador puede gestionar cuentas y moderar contenido ajeno. Cada usuario puede editar su perfil y modificar únicamente sus publicaciones y comentarios. La API comprueba los permisos, aunque se intente acceder sin utilizar la interfaz.
 

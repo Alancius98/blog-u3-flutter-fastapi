@@ -5,6 +5,7 @@ import '../widgets/auth_background.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
+import '../widgets/blog_theme.dart';
 
 import 'forgot_password_page.dart';
 
@@ -105,17 +106,22 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.lock, size: 65, color: Color(0xFFC9A227)),
+                    const BlogBrand(),
 
                     const SizedBox(height: 15),
 
                     const Text(
                       'INICIAR SESIÓN',
                       style: TextStyle(
-                        fontSize: 27,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF08245C),
+                        color: blogInk,
                       ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Tus historias te esperan.',
+                      style: TextStyle(color: blogMuted, fontSize: 15),
                     ),
 
                     const SizedBox(height: 25),
@@ -214,6 +220,15 @@ class _LoginPageState extends State<LoginPage> {
                           child: const Text('Registrarse'),
                         ),
                       ],
+                    ),
+                    TextButton.icon(
+                      onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/',
+                        (_) => false,
+                      ),
+                      icon: const Icon(Icons.arrow_back, size: 16),
+                      label: const Text('Volver a la portada'),
                     ),
                   ],
                 ),

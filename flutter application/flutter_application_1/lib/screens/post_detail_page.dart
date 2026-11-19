@@ -5,6 +5,7 @@ import '../services/api_client.dart';
 import '../services/comentario_service.dart';
 import '../services/post_service.dart';
 import 'add_blog_page.dart';
+import '../widgets/blog_theme.dart';
 
 class PostDetailPage extends StatefulWidget {
   final PostModel post;
@@ -156,154 +157,174 @@ class _PostDetailPageState extends State<PostDetailPage> {
         ],
       ],
     ),
-    body: ListView(
-      padding: const EdgeInsets.all(20),
-      children: [
-        if (post.imagen.isNotEmpty)
-          Image.network(
-            post.imagen,
-            height: 230,
-            fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => const SizedBox(
-              height: 80,
-              child: Icon(Icons.broken_image_outlined),
-            ),
-          ),
-        Text(
-          post.tags,
-          style: const TextStyle(
-            color: Color(0xFF2196F3),
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          post.titulo,
-          style: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF08245C),
-          ),
-        ),
-        const SizedBox(height: 12),
-        Text('Por ${post.autor}'),
-        const SizedBox(height: 20),
-        Text(
-          post.descripcion,
-          style: const TextStyle(fontSize: 17, height: 1.6),
-        ),
-        const Divider(height: 40),
-        const Text(
-          'Valora esta publicación',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          post.votos == 0
-              ? 'Sin valoraciones'
-              : '${post.promedio.toStringAsFixed(1)} de 5 · ${post.votos} votos',
-        ),
-        Wrap(
-          children: List.generate(
-            5,
-            (n) => IconButton(
-              tooltip: 'Valorar con ${n + 1} estrellas',
-              onPressed: votando ? null : () => valorar(n + 1),
-              icon: Icon(
-                n < (post.miValoracion ?? 0) ? Icons.star : Icons.star_border,
-                color: Colors.amber.shade800,
+    body: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 900),
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            if (post.imagen.isNotEmpty)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.network(
+                  post.imagen,
+                  height: 320,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) => const SizedBox(
+                    height: 80,
+                    child: Icon(Icons.broken_image_outlined),
+                  ),
+                ),
+              ),
+            const SizedBox(height: 24),
+            Text(
+              post.tags,
+              style: const TextStyle(
+                color: blogOrange,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-        ),
-        if (post.miValoracion != null)
-          TextButton(
-            onPressed: votando ? null : () => valorar(null),
-            child: const Text('Quitar mi valoración'),
-          ),
-        const Divider(height: 40),
-        const Text(
-          'Comentarios',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 14),
-        TextField(
-          controller: comentario,
-          maxLength: 2000,
-          maxLines: 2,
-          decoration: const InputDecoration(
-            labelText: 'Tu comentario',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: ElevatedButton(
-            onPressed: guardando ? null : enviar,
-            child: Text(guardando ? 'Guardando…' : 'Comentar'),
-          ),
-        ),
-        const SizedBox(height: 16),
-        if (cargando) const Center(child: CircularProgressIndicator()),
-        if (error != null)
-          Column(
-            children: [
-              Text(error!),
-              TextButton(onPressed: cargar, child: const Text('Reintentar')),
-            ],
-          ),
-        if (!cargando && error == null && comentarios.isEmpty)
-          const Text('Todavía no hay comentarios.'),
-        ...comentarios.map(
-          (c) => Card(
-            child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          c.autor,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      if (ApiClient.esAdmin ||
-                          c.usuarioId == ApiClient.usuario?['id_usr'])
-                        IconButton(
-                          tooltip: 'Eliminar comentario',
-                          icon: const Icon(Icons.delete_outline),
-                          onPressed: () async {
-                            if (!await confirmar('¿Eliminar comentario?')) {
-                              return;
-                            }
-                            try {
-                              await servicio.eliminar(c.id!);
-                              await cargar();
-                            } catch (e) {
-                              mensaje(e);
-                            }
-                          },
-                        ),
-                    ],
+            const SizedBox(height: 12),
+            Text(
+              post.titulo,
+              style: const TextStyle(
+                fontSize: 34,
+                fontWeight: FontWeight.bold,
+                color: blogInk,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text('Por ${post.autor}', style: const TextStyle(color: blogMuted)),
+            const SizedBox(height: 20),
+            Text(
+              post.descripcion,
+              style: const TextStyle(fontSize: 18, height: 1.8, color: blogInk),
+            ),
+            const Divider(height: 40),
+            const Text(
+              'Valora esta publicación',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              post.votos == 0
+                  ? 'Sin valoraciones'
+                  : '${post.promedio.toStringAsFixed(1)} de 5 · ${post.votos} votos',
+            ),
+            Wrap(
+              children: List.generate(
+                5,
+                (n) => IconButton(
+                  tooltip: 'Valorar con ${n + 1} estrellas',
+                  onPressed: votando ? null : () => valorar(n + 1),
+                  icon: Icon(
+                    n < (post.miValoracion ?? 0)
+                        ? Icons.star
+                        : Icons.star_border,
+                    color: Colors.amber.shade800,
                   ),
-                  Text(c.comentario),
-                  const SizedBox(height: 6),
-                  Text(
-                    c.fecha?.split('T').first ?? '',
-                    style: const TextStyle(fontSize: 11, color: Colors.grey),
+                ),
+              ),
+            ),
+            if (post.miValoracion != null)
+              TextButton(
+                onPressed: votando ? null : () => valorar(null),
+                child: const Text('Quitar mi valoración'),
+              ),
+            const Divider(height: 40),
+            const Text(
+              'Comentarios',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 14),
+            TextField(
+              controller: comentario,
+              maxLength: 2000,
+              maxLines: 2,
+              decoration: const InputDecoration(
+                labelText: 'Tu comentario',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: guardando ? null : enviar,
+                child: Text(guardando ? 'Guardando…' : 'Comentar'),
+              ),
+            ),
+            const SizedBox(height: 16),
+            if (cargando) const Center(child: CircularProgressIndicator()),
+            if (error != null)
+              Column(
+                children: [
+                  Text(error!),
+                  TextButton(
+                    onPressed: cargar,
+                    child: const Text('Reintentar'),
                   ),
                 ],
               ),
+            if (!cargando && error == null && comentarios.isEmpty)
+              const Text('Todavía no hay comentarios.'),
+            ...comentarios.map(
+              (c) => Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              c.autor,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          if (ApiClient.esAdmin ||
+                              c.usuarioId == ApiClient.usuario?['id_usr'])
+                            IconButton(
+                              tooltip: 'Eliminar comentario',
+                              icon: const Icon(Icons.delete_outline),
+                              onPressed: () async {
+                                if (!await confirmar('¿Eliminar comentario?')) {
+                                  return;
+                                }
+                                try {
+                                  await servicio.eliminar(c.id!);
+                                  await cargar();
+                                } catch (e) {
+                                  mensaje(e);
+                                }
+                              },
+                            ),
+                        ],
+                      ),
+                      Text(c.comentario),
+                      const SizedBox(height: 6),
+                      Text(
+                        c.fecha?.split('T').first ?? '',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
+            if (mas && error == null)
+              TextButton(
+                onPressed: cargando ? null : () => cargar(agregar: true),
+                child: const Text('Cargar más comentarios'),
+              ),
+          ],
         ),
-        if (mas && error == null)
-          TextButton(
-            onPressed: cargando ? null : () => cargar(agregar: true),
-            child: const Text('Cargar más comentarios'),
-          ),
-      ],
+      ),
     ),
   );
 }

@@ -63,7 +63,7 @@ diagram('Modelo_BD.png','Modelo MySQL · Estructura ampliada',[
  (1110,600,440,300,'valoraciones',['PK id_val / puntos: 1 a 5','FK usr_id / FK blog_id','UNIQUE(usr_id,blog_id)','CHECK puntos BETWEEN 1 AND 5']),
 ], [((540,220),(1040,220),'1 → N',(730,185)),((230,410),(230,600),'1 → N',(240,470)),((470,410),(710,600),'1 → N',(520,470)),((1200,410),(900,600),'1 → N',(990,470)),((1340,410),(1340,600),'1 → N',(1350,470)),((540,350),(1200,600),'usuario 1 → N',(780,480))], 'PK: primaria · FK: foránea · Las relaciones se eliminan explícitamente en la transacción al borrar una publicación.')
 diagram('Diagrama_clases.png','Clases · Se conserva la organización original',[
- (40,120,450,300,'LoginApp / SessionGuard',['Rutas y verificación al reanudar','LoginPage / RegisterPage','BlogPage / PostDetailPage','UsersPage / ProfilePage','AddBlogPage']),
+ (40,120,450,330,'LoginApp / SessionGuard',['Rutas y verificación al reanudar','WelcomePage: portada pública','LoginPage / RegisterPage','BlogPage / PostDetailPage','UsersPage / ProfilePage','AddBlogPage']),
  (590,120,450,300,'Servicios',['AuthService / UserService','PostService','ComentarioService','ApiClient: Bearer y errores','ApiConfig: URL de la API']),
  (1130,120,420,300,'Modelos Dart',['UserModel','PostModel: autor y votos','ComentarioModel: autor','fromJson() / toJsonCrear()']),
  (330,650,450,250,'API FastAPI',['main.py: rutas originales','security.py: sesión y permisos','schemas.py: validación','database.py: sesión SQLAlchemy']),
@@ -83,9 +83,10 @@ title('1. Objetivo y organización')
 p('El objetivo es ampliar el blog de clase sin reemplazar su estructura. La aplicación usa Flutter y Dart; la API utiliza FastAPI y guarda los datos en MySQL. Se conservaron las carpetas flutter application y Flutter_LITIID, además de los nombres principales de pantallas, modelos y servicios.')
 code('flutter application/\n  flutter_application_1/\n    lib/screens/   Pantallas del blog\n    lib/services/  Solicitudes a la API\n    lib/models/    Datos de Flutter\n    lib/widgets/   Componentes de interfaz\n    lib/pages/     Gestión de usuarios\nFlutter_LITIID/\n  backend_API/\n    main.py / models.py / schemas.py\n    database.py / security.py / bd.sql\n    migrations/ / tests/\nreportes/          Reporte y evidencias')
 p('La ampliación incluye sesiones seguras, registro general, permisos de administrador y usuario, publicaciones propias y ajenas y comentarios conectados al detalle. También se completaron la búsqueda y los filtros del listado. Como módulo opcional se añadieron valoraciones de 1 a 5 estrellas.')
-p('Las pantallas conservan las tarjetas, formularios, iconos y colores del código recibido. Las páginas de prácticas y catálogo permanecen en el proyecto, pero no se presentan como un sistema de ventas o pagos.')
+p('Se conserva la organización de pantallas y widgets del código recibido. La presentación utiliza colores naranja y crema, una portada de bienvenida y tarjetas con imágenes amplias. Las páginas de prácticas y catálogo permanecen en el proyecto, pero no se presentan como un sistema de ventas o pagos.')
 page()
 title('2. Frontend: pantallas y navegación')
+p('WelcomePage es la portada pública. Presenta una fotografía local y los accesos a Iniciar sesión y Crear mi cuenta. El diseño toma como referencia la composición de la página de Blogger, sin copiar su logotipo ni utilizar sus servicios. Las publicaciones se organizan en tres, dos o una columna según el ancho de pantalla.')
 p('LoginPage solicita correo y contraseña y utiliza AuthService. El servidor devuelve un token y los datos públicos de la cuenta. El tipo 1 abre la gestión de usuarios y el tipo 2 abre Mi Blog. La aplicación guarda la sesión solo en memoria; al recargar el navegador es necesario iniciar sesión otra vez.')
 p('RegisterPage conserva nombre, correo, dirección y contraseña. El registro público crea una cuenta General. Un administrador autenticado puede crear cuentas desde su menú. La API no confía en el selector de la interfaz: valida el permiso antes de aceptar un tipo administrativo.')
 p('BlogPage presenta las publicaciones con PostCard y permite consultar todas o solo las propias. Los filtros de texto y etiquetas consultan el servidor. Se cargan 20 entradas por página y el botón Cargar más permite continuar. AddBlogPage conserva el formulario original y ahora sirve también para editar una entrada.')
@@ -117,7 +118,7 @@ p('SQLAlchemy utiliza consultas parametrizadas. CORS acepta solo los orígenes c
 p('La recuperación por correo sigue pendiente y la pantalla lo indica sin afirmar que envía un enlace. Antes de publicar se necesitan HTTPS, límites de intentos de acceso, auditoría y limpieza de sesiones vencidas. Esta entrega comprueba la integración local, no una configuración de producción completa.')
 page()
 title('7. Recursos, librerías y sensores')
-p('El blog utiliza Material Icons, Cupertino Icons, tarjetas y formularios Flutter. Las imágenes son URLs opcionales y Image.network muestra un icono alternativo si fallan. No se requiere cámara, GPS ni micrófono para el caso de uso. No se añadieron permisos de sensores sin una función que los necesite.')
+p('El blog utiliza Material Icons, Cupertino Icons, tarjetas y formularios Flutter. Las imágenes de publicaciones son URLs opcionales y Image.network muestra un icono alternativo si fallan. La portada incluye una fotografía local de Unsplash, cuya fuente está registrada en assets/images/FUENTES.md. No se requiere cámara, GPS ni micrófono y no se añadieron permisos de sensores innecesarios.')
 p('El frontend conserva http ^1.6.0 y cupertino_icons ^1.0.8. dart:convert procesa JSON y dart:async controla esperas y búsquedas. flutter_test y flutter_lints permiten revisar la interfaz y el código. El requisito Dart del proyecto se mantiene en ^3.12.2.')
 p('La API usa FastAPI 0.121.3, Uvicorn 0.38.0, SQLAlchemy 2.0.44 y PyMySQL 1.1.2. pwdlib[argon2] 0.3.0 protege las credenciales; email-validator valida correos; python-dotenv carga la configuración y cryptography da soporte a la conexión MySQL. Las versiones se conservan en requirements.txt.')
 p('pytest y httpx se utilizan para las pruebas de API. Playwright registra el recorrido real de Flutter Web. ReportLab y python-docx generan los documentos y Pillow construye los diagramas. Estas herramientas de documentación no forman parte de las funciones ejecutadas en el dispositivo.')
@@ -148,7 +149,7 @@ p('La información completa se conserva en reportes/evidencias/acceso_datos.json
 page()
 title('10. Pruebas y alcance comprobado')
 p('Se aprobaron 18 pruebas de API con SQLite en memoria. Cubren registro, hashing, login, credenciales heredadas inválidas, permisos, expiración, revocación, autoría, comentarios, administración, perfil, estrellas, búsqueda, paginación y borrado de relaciones. También se comprobaron la ruta /valoraciones, su parámetro obligatorio id_blog y la configuración CORS de desarrollo: acepta puertos locales y rechaza dominios externos.')
-p('Flutter aprobó cuatro pruebas: apertura del login, registro público sin selector administrativo, limpieza del estado de sesión y adaptación del login a 390 px. El análisis estático no reportó incidencias y la compilación web release se completó. Estas pruebas no sustituyen el recorrido con HTTP real.')
+p('Flutter aprobó seis pruebas: navegación de portada a login, registro público sin selector administrativo, limpieza del estado de sesión, login a 390 px, registro desde portada a 390 px y adaptación de la portada con texto ampliado. El análisis estático no reportó incidencias y la compilación web release se completó. Estas pruebas no sustituyen el recorrido con HTTP real.')
 p('La integración con FastAPI y MySQL locales aprobó 15 comprobaciones. La migración del esquema anterior aprobó otras cinco. El recorrido en Chromium verifica registro, error de credenciales, login, publicaciones, comentarios, votos, edición, filtros, perfil, reingreso y administración.')
 p('Los archivos pruebas.json, integracion_mysql.json, migracion_mysql.json y acceso_datos.json conservan los resultados. Esta documentación corresponde a flutter application/flutter_application_1 y Flutter_LITIID/backend_API, no a las versiones independientes anteriores.')
 p('No se ha probado Android/iOS ni un despliegue remoto. La aplicación conserva sus carpetas nativas, pero el equipo no dispone del SDK Android ni Xcode completo para validar esas compilaciones. El video personal se entrega por separado. No se presenta una grabación automática como explicación realizada por el estudiante.')
@@ -164,7 +165,16 @@ title('12. Reflexión y referencias')
 p('Estoy revisando el proyecto y considero importante conservar la estructura del código recibido. Separar pantallas, servicios y modelos ayuda a encontrar cada responsabilidad. Las mejoras se integraron en esas partes sin convertir el trabajo en una aplicación independiente.')
 p('Para mí, una diferencia importante es iniciar sesión frente a tener permiso. No basta con mostrar un menú distinto: el servidor debe comprobar quién realiza cada acción. De la misma manera, mostrar un comentario no demuestra que esté guardado; por eso las evidencias lo comparan con la base de datos después de volver a entrar.')
 p('Conservar datos antiguos también requiere cuidado. Si una publicación no tenía autor, no es correcto asignarle una persona sin comprobarlo. La migración deja esa información como desconocida. Todavía hacen falta pruebas en un dispositivo móvil y una revisión de seguridad para un servidor público.')
-p('Referencias: docs.flutter.dev; pub.dev/packages/http; fastapi.tiangolo.com; docs.sqlalchemy.org; dev.mysql.com/doc; frankie567.github.io/pwdlib; owasp.org, Password Storage Cheat Sheet. Documento de la actividad: evaluación_U3.docx.')
+p('Referencias: docs.flutter.dev; pub.dev/packages/http; fastapi.tiangolo.com; docs.sqlalchemy.org; dev.mysql.com/doc; frankie567.github.io/pwdlib; owasp.org, Password Storage Cheat Sheet. Referencia visual: www.blogger.com/about/. Fotografía de portada: Unsplash, photo-1455390582262-044cdead277a. Documento de la actividad: evaluación_U3.docx.')
+if (out/'evidencias/18_portada.png').exists():
+    page();title('13. Presentación visual actual')
+    picture(out/'evidencias/18_portada.png',9)
+    p('Portada pública con acceso al registro y al login. La fotografía se carga como recurso local, sin depender de una petición externa al abrir esta pantalla.')
+    picture(out/'evidencias/20_blog_diseno.png',9)
+    p('Listado con imágenes, autor, fecha, comentarios y valoraciones. Esta revisión utiliza cuentas y contenido existentes, sin crear registros de prueba adicionales.')
+    page();title('13.1. Vista móvil y formularios')
+    picture(out/'evidencias/21_blog_movil.png',17,8)
+    p('Listado a 390 px de ancho. Las tarjetas pasan a una columna y los filtros conservan sus funciones. La verificación de diseño no modifica publicaciones, comentarios o cuentas.')
 public=out/'evidencias/repositorio_publico.json'
 if public.exists():
     page();title('Anexo. Acceso público al repositorio')

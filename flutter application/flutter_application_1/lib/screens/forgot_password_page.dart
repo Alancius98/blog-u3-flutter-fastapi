@@ -44,10 +44,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFFE6F6FF),
-              Color(0xFFBFD9FF),
-              Color(0xFFD9D1FF),
-              Color(0xFFE8DFFF),
+              Color(0xFFFBF8F3),
+              Color(0xFFF1E2D2),
+              Color(0xFFF7EBDD),
+              Color(0xFFFBF8F3),
             ],
           ),
         ),
@@ -67,7 +67,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     const Icon(
                       Icons.lock_reset,
                       size: 65,
-                      color: Color(0xFFC9A227),
+                      color: Color(0xFFC54B17),
                     ),
 
                     const SizedBox(height: 15),
@@ -78,7 +78,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF08245C),
+                        color: Color(0xFF302820),
                       ),
                     ),
 
@@ -109,7 +109,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       onPressed: recuperarPassword,
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 48),
-                        backgroundColor: const Color(0xFF2196F3),
+                        backgroundColor: const Color(0xFFC54B17),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),

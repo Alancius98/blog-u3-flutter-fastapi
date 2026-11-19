@@ -10,10 +10,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_application_1/main.dart';
 
 void main() {
-  testWidgets('la aplicación abre la pantalla de inicio de sesión', (
+  testWidgets('la portada permite abrir el inicio de sesión', (
     tester,
   ) async {
     await tester.pumpWidget(const LoginApp());
+    expect(find.text('Comparte lo que\nte inspira.'), findsOneWidget);
+    await tester.tap(find.text('Iniciar sesión'));
+    await tester.pumpAndSettle();
     expect(find.text('INGRESAR'), findsOneWidget);
     expect(find.text('Registrarse'), findsOneWidget);
   });
