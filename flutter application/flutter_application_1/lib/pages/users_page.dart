@@ -3,6 +3,7 @@ import '../models/user_model.dart';
 import '../services/user_service.dart';
 import '../widgets/admin_drawer.dart';
 import '../widgets/usuario_form_fields.dart';
+import '../widgets/blog_theme.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -89,7 +90,14 @@ class _UsersPageState extends State<UsersPage> {
               ),
               contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
               actionsPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-              title: Text(esEdicion ? 'Editar usuario' : 'Nuevo usuario'),
+              title: Text(
+                esEdicion ? 'Editar usuario' : 'Nuevo usuario',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: blogOrange,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               content: SizedBox(
                 width: 440,
                 child: SingleChildScrollView(
