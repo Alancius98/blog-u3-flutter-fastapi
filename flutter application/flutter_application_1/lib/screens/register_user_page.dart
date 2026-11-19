@@ -9,6 +9,7 @@ import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
 import '../services/api_client.dart';
 import '../widgets/blog_theme.dart';
+import '../widgets/tipo_usuario_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -283,30 +284,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (_esAdmin) ...[
                       const SizedBox(height: 15),
 
-                      DropdownButtonFormField<int>(
-                        initialValue: _tipoSeleccionado,
-
-                        decoration: InputDecoration(
-                          labelText: 'Tipo de usuario',
-
-                          prefixIcon: const Icon(Icons.admin_panel_settings),
-
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-
-                        items: const [
-                          DropdownMenuItem(value: 2, child: Text('General')),
-                          DropdownMenuItem(
-                            value: 1,
-                            child: Text('Administrador'),
-                          ),
-                        ],
-
+                      TipoUsuarioField(
+                        key: ValueKey('tipo-$_tipoSeleccionado'),
+                        tipo: _tipoSeleccionado,
+                        enabled: !cargando,
                         onChanged: (valor) {
-                          if (valor == null) return;
-
                           setState(() {
                             _tipoSeleccionado = valor;
                           });

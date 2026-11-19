@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'tipo_usuario_field.dart';
 
 /// Campos compartidos por el alta y la edición del diálogo de usuarios.
 class UsuarioFormFields extends StatelessWidget {
@@ -53,19 +54,10 @@ class UsuarioFormFields extends StatelessWidget {
         ),
       ],
       const SizedBox(height: 20),
-      DropdownButtonFormField<int>(
-        initialValue: tipo,
-        isExpanded: true,
-        decoration: const InputDecoration(labelText: 'Tipo de usuario'),
-        items: const [
-          DropdownMenuItem(value: 2, child: Text('General')),
-          DropdownMenuItem(value: 1, child: Text('Administrador')),
-        ],
-        onChanged: guardando
-            ? null
-            : (value) {
-                if (value != null) onTipoChanged(value);
-              },
+      TipoUsuarioField(
+        tipo: tipo,
+        enabled: !guardando,
+        onChanged: onTipoChanged,
       ),
     ],
   );

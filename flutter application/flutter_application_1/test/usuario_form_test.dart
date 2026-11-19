@@ -53,6 +53,17 @@ void main() {
           );
         }
         await tester.ensureVisible(find.byType(DropdownButtonFormField<int>));
+        final dropdown = tester.widget<DropdownButtonFormField<int>>(
+          find.byType(DropdownButtonFormField<int>),
+        );
+        expect(dropdown.decoration.labelText, isNull);
+        expect(find.text('Tipo de usuario'), findsOneWidget);
+        expect(
+          tester.getBottomLeft(find.text('Tipo de usuario')).dy,
+          lessThan(
+            tester.getTopLeft(find.byType(DropdownButtonFormField<int>)).dy,
+          ),
+        );
         await tester.tap(find.byType(DropdownButtonFormField<int>));
         await tester.pumpAndSettle();
         expect(find.text('Administrador'), findsOneWidget);
