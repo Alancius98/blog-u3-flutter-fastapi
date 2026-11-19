@@ -4,6 +4,7 @@ from datetime import timedelta
 from pathlib import Path
 
 os.environ['DATABASE_URL'] = 'sqlite+pysqlite:///:memory:'
+os.environ['DEV_CORS_LOCALHOST'] = 'true'
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import pytest
@@ -219,3 +220,14 @@ def test_valoraciones_ruta_sin_llaves_y_parametro_obligatorio():
     assert client.put('/valoraciones', headers=h, json={'puntos':5}).status_code == 422
     assert client.delete('/valoraciones?id_blog=0', headers=h).status_code == 422
     assert client.put('/valoraciones?id_blog=999', headers=h, json={'puntos':5}).status_code == 404
+
+
+def test_cors_desarrollo_acepta_puertos_locales_no_dominios_externos():
+    for origin in ['http://localhost:63589', 'http://127.0.0.1:63589']:
+        response = client.options('/login', headers={'Origin': origin, 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type'})
+        assert response.status_code == 200
+        assert response.headers['access-control-allow-origin'] == origin
+    for origin in ['http://localhost.ejemplo.com:63589', 'https://externo.example.com', 'http://192.168.1.25:8080']:
+        response = client.options('/login', headers={'Origin': origin, 'Access-Control-Request-Method': 'POST'})
+        assert response.status_code == 400
+        assert 'access-control-allow-origin' not in response.headers

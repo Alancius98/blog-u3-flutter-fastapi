@@ -17,6 +17,9 @@ from security import (administrador, ahora, autor_o_admin, crear_sesion, hash_va
 app = FastAPI(title='API de aplicación móvil', version='2.0.0', description='Blog · Flutter, FastAPI y MySQL')
 app.add_middleware(CORSMiddleware,
     allow_origins=os.getenv('CORS_ORIGINS', 'http://127.0.0.1:8080,http://localhost:8080').split(','),
+    # Flutter desde VS Code elige un puerto local distinto en cada ejecución.
+    # Esta excepción solo se activa en desarrollo y no acepta dominios externos.
+    allow_origin_regex=r'http://(?:localhost|127\.0\.0\.1):[0-9]{1,5}' if os.getenv('DEV_CORS_LOCALHOST', 'false').lower() == 'true' else None,
     allow_credentials=False, allow_methods=['GET', 'POST', 'PUT', 'DELETE'],
     allow_headers=['Content-Type', 'Authorization'])
 

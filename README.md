@@ -66,6 +66,8 @@ uvicorn main:app --host 127.0.0.1 --port 8000
 
 La documentación está en http://127.0.0.1:8000/docs. La ruta http://127.0.0.1:8000/ ejecuta una consulta y confirma el motor de la base. Las tablas se preparan con SQL, no se crean al importar la API.
 
+Si ejecutas Flutter desde VS Code con un puerto web automático, puedes definir `DEV_CORS_LOCALHOST=true` en el entorno de la API y reiniciarla. Esto permite únicamente orígenes HTTP de `localhost` o `127.0.0.1` con puerto, no dominios externos. Para un servidor público debe quedar en `false` y se deben configurar los orígenes exactos en `CORS_ORIGINS`. Otra opción es iniciar Flutter siempre en el puerto 8080, como se indica abajo.
+
 Para crear un administrador nuevo, desde la carpeta de la API con el entorno activado:
 
 ```bash
