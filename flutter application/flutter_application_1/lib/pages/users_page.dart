@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../services/user_service.dart';
 import '../widgets/admin_drawer.dart';
+import '../widgets/usuario_form_fields.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -80,56 +81,31 @@ class _UsersPageState extends State<UsersPage> {
         return StatefulBuilder(
           builder: (contextDialogo, actualizarDialogo) {
             return AlertDialog(
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.transparent,
+              insetPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 24,
+              ),
+              contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+              actionsPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
               title: Text(esEdicion ? 'Editar usuario' : 'Nuevo usuario'),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: nombreController,
-                      decoration: const InputDecoration(
-                        labelText: 'Nombre completo',
-                      ),
-                    ),
-                    TextField(
-                      controller: correoController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        labelText: 'Correo electrónico',
-                      ),
-                    ),
-                    TextField(
-                      controller: direccionController,
-                      decoration: const InputDecoration(labelText: 'Dirección'),
-                    ),
-                    if (!esEdicion)
-                      TextField(
-                        controller: passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Contraseña',
-                        ),
-                      ),
-                    DropdownButtonFormField<int>(
-                      initialValue: tipoSeleccionado,
-                      decoration: const InputDecoration(
-                        labelText: 'Tipo de usuario',
-                      ),
-                      items: const [
-                        DropdownMenuItem(value: 2, child: Text('General')),
-                        DropdownMenuItem(
-                          value: 1,
-                          child: Text('Administrador'),
-                        ),
-                      ],
-                      onChanged: (valor) {
-                        if (valor == null) return;
-                        actualizarDialogo(() {
-                          tipoSeleccionado = valor;
-                        });
-                      },
-                    ),
-                  ],
+              content: SizedBox(
+                width: 440,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: UsuarioFormFields(
+                    nombre: nombreController,
+                    correo: correoController,
+                    direccion: direccionController,
+                    password: passwordController,
+                    esEdicion: esEdicion,
+                    guardando: guardando,
+                    tipo: tipoSeleccionado,
+                    onTipoChanged: (valor) => actualizarDialogo(() {
+                      tipoSeleccionado = valor;
+                    }),
+                  ),
                 ),
               ),
               actions: [

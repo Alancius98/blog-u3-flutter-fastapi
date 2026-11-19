@@ -7,11 +7,11 @@
   {
     "comando": "flutter analyze",
     "codigo": 0,
-    "salida": "Analyzing flutter_application_1...                              \nNo issues found! (ran in 0.9s)\n"
+    "salida": "Analyzing flutter_application_1...                              \nNo issues found! (ran in 0.8s)\n"
   },
   {
     "comando": "flutter test",
     "codigo": 0,
-    "salida": "00:00 +0: loading <PROYECTO>/flutter application/flutter_application_1/test/widget_test.dart\n00:00 +0: <PROYECTO>/flutter application/flutter_application_1/test/blog_test.dart: El registro público no muestra selector de administrador\n00:00 +1: <PROYECTO>/flutter application/flutter_application_1/test/blog_test.dart: El registro público no muestra selector de administrador\n00:00 +2: <PROYECTO>/flutter application/flutter_application_1/test/blog_test.dart: La sesión conserva usuario y rol sin persistir el token\n00:00 +3: <PROYECTO>/flutter application/flutter_application_1/test/blog_test.dart: El login se adapta a 390 px sin desbordamientos\n00:00 +4: <PROYECTO>/flutter application/flutter_application_1/test/blog_test.dart: La portada permite crear cuenta a 390 px\n00:00 +5: <PROYECTO>/flutter application/flutter_application_1/test/blog_test.dart: La portada admite texto ampliado sin cortarlo\n00:00 +6: All tests passed!\n"
+    "salida": "00:00 +0: loading <PROYECTO>/flutter application/flutter_application_1/test/widget_test.dart\n00:00 +0: <PROYECTO>/flutter application/flutter_application_1/test/blog_test.dart: El registro público no muestra selector de administrador\n00:00 +1: <PROYECTO>/flutter application/flutter_application_1/test/usuario_form_test.dart: Campos separados en edición a 390 px\n00:00 +2: <PROYECTO>/flutter application/flutter_application_1/test/usuario_form_test.dart: Campos separados en edición a 390 px\n00:00 +3: <PROYECTO>/flutter application/flutter_application_1/test/widget_test.dart: la portada permite abrir el inicio de sesión\n00:00 +4: <PROYECTO>/flutter application/flutter_application_1/test/widget_test.dart: la portada permite abrir el inicio de sesión\n00:00 +5: <PROYECTO>/flutter application/flutter_application_1/test/usuario_form_test.dart: Campos separados en registro a 390 px\n00:00 +6: <PROYECTO>/flutter application/flutter_application_1/test/usuario_form_test.dart: Campos separados en registro a 390 px\n00:00 +7: <PROYECTO>/flutter application/flutter_application_1/test/blog_test.dart: La portada admite texto ampliado sin cortarlo\n00:00 +8: All tests passed!\n"
   }
 ]
