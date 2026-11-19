@@ -53,11 +53,11 @@ class PostService {
   Future<PostModel> valorar(int id, int puntos) async => PostModel.fromJson(
     await ApiClient.solicitar(
       'PUT',
-      '/blog/$id/valoracion',
+      '/valoraciones?id_blog=$id',
       datos: {'puntos': puntos},
     ),
   );
   Future<PostModel> quitarValoracion(int id) async => PostModel.fromJson(
-    await ApiClient.solicitar('DELETE', '/blog/$id/valoracion'),
+    await ApiClient.solicitar('DELETE', '/valoraciones?id_blog=$id'),
   );
 }

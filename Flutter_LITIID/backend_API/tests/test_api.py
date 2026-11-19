@@ -161,7 +161,7 @@ def test_valoracion_unica_promedio_y_retiro():
     a, _ = cuenta()
     b, _ = cuenta('otro@example.com')
     post = publicar(a)
-    ruta = f'/blog/{post}/valoracion'
+    ruta = f'/valoraciones?id_blog={post}'
     assert client.put(ruta, headers=a, json={'puntos':5}).json()['votos'] == 1
     r = client.put(ruta, headers=b, json={'puntos':3}).json()
     assert r['promedio'] == 4 and r['mi_valoracion'] == 3
@@ -186,7 +186,7 @@ def test_borrado_relaciones():
     a, _ = cuenta()
     post = publicar(a)
     client.post('/comentarios', headers=a, json={'blog_id':post,'comentario':'Prueba'})
-    client.put(f'/blog/{post}/valoracion', headers=a, json={'puntos':5})
+    client.put(f'/valoraciones?id_blog={post}', headers=a, json={'puntos':5})
     assert client.delete(f'/blog?id_blog={post}', headers=a).status_code == 204
     with Factory() as db:
         assert db.scalar(select(Valoracion)) is None
@@ -206,3 +206,16 @@ def test_estado_y_cabeceras():
     r = client.get('/')
     assert r.status_code == 200 and r.json()['database'] == 'sqlite'
     assert r.headers['cache-control'] == 'no-store'
+
+
+def test_valoraciones_ruta_sin_llaves_y_parametro_obligatorio():
+    paths = client.get('/openapi.json').json()['paths']
+    assert '/valoraciones' in paths
+    assert '/blog/{id_blog}/valoracion' not in paths
+    for method in ['put', 'delete']:
+        parameter = next(p for p in paths['/valoraciones'][method]['parameters'] if p['name'] == 'id_blog')
+        assert parameter['in'] == 'query' and parameter['required']
+    h, _ = cuenta()
+    assert client.put('/valoraciones', headers=h, json={'puntos':5}).status_code == 422
+    assert client.delete('/valoraciones?id_blog=0', headers=h).status_code == 422
+    assert client.put('/valoraciones?id_blog=999', headers=h, json={'puntos':5}).status_code == 404

@@ -120,7 +120,7 @@ Salvo estado, registro público y login, se requiere `Authorization: Bearer TOKE
 | GET | `/comentarios?blog_id=ID&offset=0&limit=20` | Comentarios de una publicación |
 | POST | `/comentarios` | Crear comentario; autor desde sesión |
 | DELETE | `/comentarios?id_com=ID` | Autor o administrador |
-| PUT / DELETE | `/blog/ID/valoracion` | Guardar o retirar voto propio |
+| PUT / DELETE | `/valoraciones?id_blog=ID` | Guardar o retirar voto propio |
 
 Los campos originales se conservan: `mail`, `nom_usr`, `tip_usu`, `id_blog`, `titulo`, `descripcion`, `img`, `tags`, `comentario` y `blog_id`. La respuesta de `/login` ahora contiene `access_token`, `expira` y `usuario`. Los comentarios ya no aceptan `usr_id` enviado por el cliente. Las publicaciones y comentarios cargan 20 registros por página con botón Cargar más. La pantalla de usuarios carga hasta 100 cuentas; la API permite páginas, pero esa pantalla aún no incorpora navegación de páginas.
 

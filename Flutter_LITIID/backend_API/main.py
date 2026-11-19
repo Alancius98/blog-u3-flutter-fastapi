@@ -231,8 +231,8 @@ def eliminar_comentario(id_com: int, usuario=Depends(usuario_actual), db: Sessio
     return Response(status_code=204)
 
 
-@app.put('/blog/{id_blog}/valoracion', response_model=BlogRespuesta, tags=['Valoraciones'])
-def valorar(id_blog: int, datos: ValoracionCrear, usuario=Depends(usuario_actual), db: Session = Depends(obtener_sesion)):
+@app.put('/valoraciones', response_model=BlogRespuesta, tags=['Valoraciones'])
+def valorar(datos: ValoracionCrear, id_blog: int = Query(..., ge=1), usuario=Depends(usuario_actual), db: Session = Depends(obtener_sesion)):
     publicacion = buscar_blog(db, id_blog)
     voto = db.scalar(select(Valoracion).where(Valoracion.blog_id == id_blog, Valoracion.usr_id == usuario.id_usr))
     if voto:
@@ -247,8 +247,8 @@ def valorar(id_blog: int, datos: ValoracionCrear, usuario=Depends(usuario_actual
     return respuestas_blog(db, [publicacion], usuario)[0]
 
 
-@app.delete('/blog/{id_blog}/valoracion', response_model=BlogRespuesta, tags=['Valoraciones'])
-def quitar_valoracion(id_blog: int, usuario=Depends(usuario_actual), db: Session = Depends(obtener_sesion)):
+@app.delete('/valoraciones', response_model=BlogRespuesta, tags=['Valoraciones'])
+def quitar_valoracion(id_blog: int = Query(..., ge=1), usuario=Depends(usuario_actual), db: Session = Depends(obtener_sesion)):
     publicacion = buscar_blog(db, id_blog)
     db.execute(delete(Valoracion).where(Valoracion.blog_id == id_blog, Valoracion.usr_id == usuario.id_usr))
     db.commit()

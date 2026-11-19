@@ -41,14 +41,14 @@ checks['autoria_sesion']=post.json()['usr_id']==created.json()['id_usr']
 c=client.post('/comentarios',headers=h,json={'blog_id':id,'comentario':'Comentario Unicode 🌿'})
 c.raise_for_status()
 checks['comentario_lectura']=client.get('/comentarios',headers=a,params={'blog_id':id}).json()[0]['comentario']=='Comentario Unicode 🌿'
-client.put(f'/blog/{id}/valoracion',headers=h,json={'puntos':5}).raise_for_status()
-client.put(f'/blog/{id}/valoracion',headers=a,json={'puntos':3}).raise_for_status()
-r=client.put(f'/blog/{id}/valoracion',headers=h,json={'puntos':1}).json()
+client.put('/valoraciones',params={'id_blog':id},headers=h,json={'puntos':5}).raise_for_status()
+client.put('/valoraciones',params={'id_blog':id},headers=a,json={'puntos':3}).raise_for_status()
+r=client.put('/valoraciones',params={'id_blog':id},headers=h,json={'puntos':1}).json()
 checks['voto_unico_promedio']=r['votos']==2 and r['promedio']==2
 checks['busqueda_servidor']=client.get('/blog',headers=h,params={'q':'Integración temporal','propios':True}).json()[0]['id_blog']==id
 checks['edicion_admin']=client.put('/blog',headers=a,json={'id_blog':id,'titulo':'Moderada','descripcion':'Verificada'}).status_code==200
 checks['comentario_admin']=client.delete('/comentarios',headers=a,params={'id_com':c.json()['id_com']}).status_code==204
-checks['retiro_valoracion']=client.delete(f'/blog/{id}/valoracion',headers=a).json()['votos']==1
+checks['retiro_valoracion']=client.delete('/valoraciones',params={'id_blog':id},headers=a).json()['votos']==1
 checks['borrado_publicacion']=client.delete('/blog',headers=h,params={'id_blog':id}).status_code==204
 checks['logout']=client.post('/logout',headers=h).status_code==204
 checks['token_revocado']=client.get('/blog',headers=h).status_code==401
