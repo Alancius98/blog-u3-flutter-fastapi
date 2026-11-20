@@ -6,7 +6,7 @@ Universidad Politécnica de Santa Rosa Jáuregui · Mobile programming II
 
 Docente: Adriana Y. Contreras Álvarez
 
-Este proyecto amplía el código de clase y conserva sus dos carpetas principales. Flutter presenta la aplicación; FastAPI valida las solicitudes y consulta MySQL.
+Este proyecto se aplica de la aplicación para android y iphone con FastAPI valida las solicitudes y consulta MySQL.
 
 Repositorio público: https://github.com/Alancius98/blog-u3-flutter-fastapi
 
@@ -35,18 +35,25 @@ Python 3.12 o superior, MySQL 8.0.16 o superior y Flutter con Dart 3.12.2 o supe
 
 ### Base de datos nueva
 
-Desde la raíz:
+**Opción A — Desde XAMPP (phpMyAdmin):**
+
+1. Inicia **Apache** y **MySQL** en el panel de control de XAMPP y abre **phpMyAdmin** (`http://localhost/phpmyadmin`).
+2. En la pestaña **Importar**, selecciona el archivo `Flutter_LITIID/backend_API/bd.sql` y pulsa **Importar** (creará automáticamente la base `bd_aplicacion_movil` con sus 5 tablas).
+
+**Opción B — Desde terminal:**
 
 ```bash
 mysql -u root -p < Flutter_LITIID/backend_API/bd.sql
 ```
 
-El script no crea cuentas predeterminadas ni guarda contraseñas de ejemplo. En MySQL, crea una cuenta limitada y sustituye la contraseña:
+El script no crea cuentas predeterminadas ni guarda contraseñas de ejemplo. En MySQL, puedes crear una cuenta limitada y sustituir la contraseña:
 
 ```sql
-CREATE USER 'blog_app'@'127.0.0.1' IDENTIFIED BY 'CAMBIAR_CONTRASENA';
+CREATE USER IF NOT EXISTS 'blog_app'@'127.0.0.1' IDENTIFIED BY 'CAMBIAR_CONTRASENA';
 GRANT SELECT,INSERT,UPDATE,DELETE ON bd_aplicacion_movil.* TO 'blog_app'@'127.0.0.1';
 ```
+
+> **Nota para XAMPP en Windows:** Si MariaDB en XAMPP muestra el error `#1032 - No puedo encontrar el registro en 'global_priv'` al ejecutar el `GRANT`, puedes usar directamente el usuario local de XAMPP en tu archivo `.env` dejando `DB_USER=root` y `DB_PASSWORD=` (vacío).
 
 ### Actualizar la base original
 
@@ -56,27 +63,52 @@ La migración conserva los registros. Las publicaciones anteriores quedan con au
 
 ### API
 
+#### 1. Preparar el entorno e instalar dependencias
+
+**En Windows (PowerShell):**
+
+```powershell
+cd Flutter_LITIID/backend_API
+python -m venv venv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+copy .env.example .env
+```
+
+**En Linux / macOS:**
+
 ```bash
 cd Flutter_LITIID/backend_API
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-# Configura tu usuario, contraseña, host, puerto y base en .env.
-uvicorn main:app --host 127.0.0.1 --port 8000
 ```
 
-La documentación está en http://127.0.0.1:8000/docs. La ruta http://127.0.0.1:8000/ ejecuta una consulta y confirma el motor de la base. Las tablas se preparan con SQL, no se crean al importar la API.
+Configura tu usuario, contraseña, host, puerto y base en `.env` (por ejemplo, en XAMPP local: `DB_USER=root` y `DB_PASSWORD=`).
 
-Si ejecutas Flutter desde VS Code con un puerto web automático, puedes definir `DEV_CORS_LOCALHOST=true` en el entorno de la API y reiniciarla. Esto permite únicamente orígenes HTTP de `localhost` o `127.0.0.1` con puerto, no dominios externos. Para un servidor público debe quedar en `false` y se deben configurar los orígenes exactos en `CORS_ORIGINS`. Otra opción es iniciar Flutter siempre en el puerto 8080, como se indica abajo.
+#### 2. Crear un usuario Administrador (`manage.py`)
 
-Para crear un administrador nuevo, desde la carpeta de la API con el entorno activado:
+Antes de iniciar el servidor (con el entorno virtual activado dentro de `Flutter_LITIID/backend_API`), crea tu cuenta de Administrador:
 
 ```bash
 python manage.py create-admin --mail TU_CORREO --nombre Administrador
 ```
 
-El programa pide contraseña oculta y confirmación. No modifica cuentas existentes ni publica una contraseña administrativa. El registro público es `POST /usuarios`; la creación de cuentas desde una sesión administrativa utiliza `POST /admin/usuarios`.
+- El programa pide **contraseña oculta** y **confirmación** (por seguridad no se ven letras ni asteriscos al escribir en la terminal).
+- La contraseña debe tener entre **8 y 128 caracteres**.
+- No modifica cuentas existentes ni publica una contraseña administrativa. El registro público es `POST /usuarios`; la creación de cuentas desde una sesión administrativa utiliza `POST /admin/usuarios`.
+
+#### 3. Iniciar el servidor FastAPI
+
+```bash
+uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+Deja esta terminal abierta mientras ejecutas la aplicación Flutter. La documentación interactiva está en http://127.0.0.1:8000/docs y la ruta http://127.0.0.1:8000/ ejecuta una consulta y confirma el motor de la base. Las tablas se preparan con SQL, no se crean al importar la API.
+
+Si ejecutas Flutter desde VS Code con un puerto web automático, puedes definir `DEV_CORS_LOCALHOST=true` en el archivo `.env` de la API y reiniciarla. Esto permite únicamente orígenes HTTP de `localhost` o `127.0.0.1` con puerto, no dominios externos. Para un servidor público debe quedar en `false` y se deben configurar los orígenes exactos en `CORS_ORIGINS`. Otra opción es iniciar Flutter siempre en el puerto 8080, como se indica abajo.
 
 ### App
 
