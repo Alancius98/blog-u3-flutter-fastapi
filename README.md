@@ -49,7 +49,7 @@ mysql -u root -p < Flutter_LITIID/backend_API/bd.sql
 El script no crea cuentas predeterminadas ni guarda contraseñas de ejemplo. En MySQL, puedes crear una cuenta limitada y sustituir la contraseña:
 
 ```sql
-CREATE USER IF NOT EXISTS 'blog_app'@'127.0.0.1' IDENTIFIED BY 'CAMBIAR_CONTRASENA';
+CREATE USER IF NOT EXISTS 'root'@'127.0.0.1' IDENTIFIED BY '';
 GRANT SELECT,INSERT,UPDATE,DELETE ON bd_aplicacion_movil.* TO 'blog_app'@'127.0.0.1';
 ```
 
