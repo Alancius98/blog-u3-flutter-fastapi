@@ -33,7 +33,7 @@ El tipo 1 corresponde a Administrador y el tipo 2 a General. El registro públic
 
 Python 3.12 o superior, MySQL 8.0.16 o superior y Flutter con Dart 3.12.2 o superior. Chrome permite ejecutar la versión web. Para Android/iOS se necesitan sus herramientas nativas.
 
-### Base de datos nueva
+### Base de datos
 
 **Opción A — Desde XAMPP (phpMyAdmin):**
 
